@@ -56,6 +56,11 @@ def fechar_conta(mesa):
 
     return render_template('fechar.html', mesa=mesa, itens=resumo, total=total)
 
+@app.route('/fechar_simples/<int:mesa>')
+def fechar_simples(mesa):
+    mesas[mesa] = []
+    return redirect(url_for('index'))
+
 # 🔹 Rodar servidor
 if __name__ == '__main__':
     app.run(debug=True)
