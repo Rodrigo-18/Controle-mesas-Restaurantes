@@ -103,12 +103,34 @@ h1 {
     </div>
 </div>
 
-<div class="btn">
+<div class="btn" style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+
+    <!-- FECHAR COM IMPRESSÃO -->
     <a href="/fechar/{{mesa}}">
-        <button style="background:#22c55e; color:white; padding:10px 20px; border:none; border-radius:8px; cursor:pointer;">
-            💳 Fechar Conta
+        <button style="
+            background:#22c55e;
+            color:white;
+            padding:10px 15px;
+            border:none;
+            border-radius:8px;
+            cursor:pointer;">
+            🖨️ Fechar + Imprimir
         </button>
     </a>
+
+    <!-- FECHAR SEM IMPRESSÃO -->
+    <a href="/fechar_simples/{{mesa}}">
+        <button style="
+            background:#f59e0b;
+            color:white;
+            padding:10px 15px;
+            border:none;
+            border-radius:8px;
+            cursor:pointer;">
+            ✔️ Fechar Conta
+        </button>
+    </a>
+
 </div>
 </body>
 </html>
