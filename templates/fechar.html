@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Conta Mesa {{mesa}}</title>
+
+<style>
+body {
+    font-family: Arial;
+    padding: 20px;
+}
+
+.container {
+    max-width: 300px;
+    margin: auto;
+}
+
+h2 {
+    text-align: center;
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.total {
+    margin-top: 15px;
+    font-weight: bold;
+    font-size: 18px;
+    border-top: 1px solid black;
+    padding-top: 10px;
+}
+
+/* BOTÃO NÃO APARECE NA IMPRESSÃO */
+.no-print {
+    margin-top: 20px;
+    text-align: center;
+}
+
+@media print {
+    .no-print {
+        display: none;
+    }
+}
+</style>
+
+</head>
+<body onload="window.print()">
+
+<div class="container">
+    <h2>🧾 Mesa {{mesa}}</h2>
+
+    {% for item in itens %}
+    <div class="item">
+        <span>{{item.nome}}</span>
+        <span>R$ {{ "%.2f"|format(item.valor) }}</span>
+    </div>
+    {% endfor %}
+
+    <div class="total">
+        Total: R$ {{ "%.2f"|format(total) }}
+    </div>
+
+    <div class="no-print">
+        <a href="/">
+            <button>Voltar</button>
+        </a>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Mesa {{mesa}}</title>
+
+<style>
+body {
+    font-family: 'Segoe UI', Arial;
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 20px;
+    margin: 0;
+}
+
+.container {
+    max-width: 500px;
+    margin: auto;
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.6);
+}
+
+h1 {
+    text-align: center;
+    color: #38bdf8;
+}
+
+/* ITEM */
+.item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #0f172a;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+/* BOTÃO EXCLUIR */
+.remove {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* TOTAL */
+.total {
+    margin-top: 20px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #22c55e;
+    text-align: right;
+}
+
+/* BOTÃO VOLTAR */
+.btn {
+    display: block;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.voltar {
+    background: #3b82f6;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+    <h1>🧾 Mesa {{mesa}}</h1>
+
+    {% for item in itens %}
+    <div class="item">
+        <span>
+            {{item.nome}} - R$ {{ "%.2f"|format(item.valor) }}
+        </span>
+
+        <a href="/remover/{{mesa}}/{{loop.index0}}">
+            <button class="remove">❌</button>
+        </a>
+    </div>
+    {% endfor %}
+
+    <div class="total">
+        Total: R$ {{ "%.2f"|format(total) }}
+    </div>
+
+    <div class="btn">
+        <a href="/">
+            <button class="voltar">Voltar</button>
+        </a>
+    </div>
+</div>
+
+<div class="btn" style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+
+    <!-- FECHAR COM IMPRESSÃO -->
+    <a href="/fechar/{{mesa}}">
+        <button style="
+            background:#22c55e;
+            color:white;
+            padding:10px 15px;
+            border:none;
+            border-radius:8px;
+            cursor:pointer;">
+            🖨️ Fechar + Imprimir
+        </button>
+    </a>
+
+    <!-- FECHAR SEM IMPRESSÃO -->
+    <a href="/fechar_simples/{{mesa}}">
+        <button style="
+            background:#f59e0b;
+            color:white;
+            padding:10px 15px;
+            border:none;
+            border-radius:8px;
+            cursor:pointer;">
+            ✔️ Fechar Conta
+        </button>
+    </a>
+
+</div>
+</body>
+</html>
