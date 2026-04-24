@@ -1,136 +1,83 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-<meta charset="UTF-8">
-<title>Mesa {{mesa}}</title>
+<form method="POST" id="formMesa">
+    <style>
+        body { background-color: #020617; color: #f8fafc; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 20px; }
+        .lista { margin-top: 20px; }
 
-<style>
-body {
-    font-family: 'Segoe UI', Arial;
-    background: #0f172a;
-    color: #e2e8f0;
-    padding: 20px;
-    margin: 0;
-}
+        /* Grid ajustado para 5 colunas (Checkbox, Nome, Valor, Remover) */
+        .item {
+            display: grid;
+            grid-template-columns: 40px 1fr 120px 50px;
+            align-items: center;
+            gap: 10px;
+            background: #1e293b;
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid #334155;
+            margin-bottom: 12px;
+        }
 
-.container {
-    max-width: 500px;
-    margin: auto;
-    background: #1e293b;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.6);
-}
+        .nome { font-size: 1.1rem; font-weight: 700; color: #ffffff; }
+        .valor {
+            width: 100px; background: #0f172a; color: #38bdf8; font-weight: bold;
+            border: 1px solid #475569; padding: 8px; border-radius: 6px; text-align: right;
+        }
+        .remove { background: #991b1b; color: white; border: none; border-radius: 6px; padding: 8px; cursor: pointer; }
 
-h1 {
-    text-align: center;
-    color: #38bdf8;
-}
+        .total-box { margin-top: 25px; padding: 20px; background: #064e3b; border: 2px solid #10b981; border-radius: 12px; text-align: right; font-size: 1.5rem; font-weight: 800; color: #ffffff; }
+        .botoes { margin-top: 20px; display: flex; gap: 10px; justify-content: center; }
+        .btn { padding: 14px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+    </style>
 
-/* ITEM */
-.item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #0f172a;
-    padding: 10px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-}
+    <div class="lista">
+        {% for item in itens %}
+        <div class="item">
+            <input type="checkbox" name="selecionados" value="{{loop.index0}}">
+            <span class="nome">{{item.nome}}</span>
 
-/* BOTÃO EXCLUIR */
-.remove {
-    background: #ef4444;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 6px;
-    cursor: pointer;
-}
+            <input type="number" value="{{ "%.2f"|format(item.valor) }}" class="valor" name="valor_{{loop.index0}}" readonly>
 
-/* TOTAL */
-.total {
-    margin-top: 20px;
-    font-size: 22px;
-    font-weight: bold;
-    color: #22c55e;
-    text-align: right;
-}
-
-/* BOTÃO VOLTAR */
-.btn {
-    display: block;
-    margin-top: 20px;
-    text-align: center;
-}
-
-.voltar {
-    background: #3b82f6;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-}
-</style>
-
-</head>
-<body>
-
-<div class="container">
-    <h1>🧾 Mesa {{mesa}}</h1>
-
-    {% for item in itens %}
-    <div class="item">
-        <span>
-            {{item.nome}} - R$ {{ "%.2f"|format(item.valor) }}
-        </span>
-
-        <a href="/remover/{{mesa}}/{{loop.index0}}">
-            <button class="remove">❌</button>
-        </a>
-    </div>
-    {% endfor %}
-
-    <div class="total">
-        Total: R$ {{ "%.2f"|format(total) }}
+            <a href="/remover/{{mesa}}/{{loop.index0}}"><button type="button" class="remove">❌</button></a>
+        </div>
+        {% endfor %}
     </div>
 
-    <div class="btn">
-        <a href="/">
-            <button class="voltar">Voltar</button>
-        </a>
+    <div class="total-box">
+        Total selecionado: R$ <span id="totalSelecionado">0.00</span>
     </div>
-</div>
 
-<div class="btn" style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+    <div class="botoes">
+        <button type="submit" formaction="{{ url_for('fechar_selecionados', mesa=mesa) }}" class="btn" style="background:#16a34a; color:white;">🖨️ Fechar + Imprimir</button>
+        <button type="submit" formaction="{{ url_for('fechar_selecionados_simples', mesa=mesa) }}" class="btn" style="background:#d97706; color:white;">✔️ Fechar Conta</button>
+    </div>
+</form>
 
-    <!-- FECHAR COM IMPRESSÃO -->
-    <a href="/fechar/{{mesa}}">
-        <button style="
-            background:#22c55e;
-            color:white;
-            padding:10px 15px;
-            border:none;
-            border-radius:8px;
-            cursor:pointer;">
-            🖨️ Fechar + Imprimir
+<div style="margin-top:20px; text-align:center;">
+    <a href="/" style="text-decoration:none;">
+        <button type="button" class="btn" style="background:#334155; color:white;">
+            ⬅️ Voltar para Mesas
         </button>
     </a>
-
-    <!-- FECHAR SEM IMPRESSÃO -->
-    <a href="/fechar_simples/{{mesa}}">
-        <button style="
-            background:#f59e0b;
-            color:white;
-            padding:10px 15px;
-            border:none;
-            border-radius:8px;
-            cursor:pointer;">
-            ✔️ Fechar Conta
-        </button>
-    </a>
-
 </div>
-</body>
-</html>
+
+<script>
+function calcularTotal() {
+    let total = 0;
+    document.querySelectorAll('.item').forEach(item => {
+        const cb = item.querySelector('input[name="selecionados"]');
+        const val = parseFloat(item.querySelector('.valor').value) || 0;
+
+        if (cb.checked) {
+            total += val;
+            item.style.border = "1px solid #22c55e";
+        } else {
+            item.style.border = "1px solid #334155";
+        }
+    });
+    document.getElementById('totalSelecionado').innerText = total.toFixed(2).replace('.', ',');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('input[name="selecionados"]').forEach(el => el.addEventListener('change', calcularTotal));
+    calcularTotal();
+});
+</script>

@@ -1,0 +1,48 @@
+<style>
+/* Forçar cores de alto contraste */
+body {
+    background-color: #0f172a !important;
+    padding: 20px;
+}
+
+.lista {
+    margin-top: 20px;
+}
+
+/* Container do item com contraste máximo */
+.item {
+    display: grid;
+    grid-template-columns: 40px 1fr 100px 50px;
+    align-items: center;
+    gap: 10px;
+    background: #ffffff !important; /* Fundo branco para garantir leitura */
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border: 2px solid #000000;
+}
+
+/* Forçar o nome do item para preto absoluto */
+.nome {
+    font-size: 1.3rem !important;
+    font-weight: 900 !important;
+    color: #000000 !important;
+    display: block !important;
+    visibility: visible !important;
+}
+
+/* Valor */
+.valor {
+    color: #000000 !important;
+    font-weight: bold;
+    border: 1px solid #000;
+}
+
+/* Garante que o total seja legível */
+.total-box {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: 3px solid #22c55e;
+    font-size: 1.5rem;
+}
+</style>

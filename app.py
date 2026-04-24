@@ -61,6 +61,41 @@ def fechar_simples(mesa):
     mesas[mesa] = []
     return redirect(url_for('index'))
 
+@app.route('/fechar_selecionados/<int:mesa>', methods=['POST'])
+def fechar_selecionados(mesa):
+    selecionados = request.form.getlist('selecionados')
+
+    itens_mesa = mesas[mesa]
+    itens_fechados = []
+    total = 0
+
+    # percorre de trás pra frente pra remover corretamente
+    for i in sorted([int(x) for x in selecionados], reverse=True):
+        item = itens_mesa[i]
+
+        # valor editado
+        novo_valor = float(request.form.get(f'valor_{i}', item['valor']))
+
+        item['valor'] = novo_valor
+        itens_fechados.append(item)
+        total += novo_valor
+
+        itens_mesa.pop(i)
+
+    return render_template('fechar.html', mesa=mesa, itens=itens_fechados, total=total)
+
+
+@app.route('/fechar_selecionados_simples/<int:mesa>', methods=['POST'])
+def fechar_selecionados_simples(mesa):
+    selecionados = request.form.getlist('selecionados')
+
+    for i in sorted([int(x) for x in selecionados], reverse=True):
+        mesas[mesa].pop(i)
+
+    return redirect(url_for('ver_mesa', mesa=mesa))
+
+
+
 # 🔹 Rodar servidor
 if __name__ == '__main__':
     app.run(debug=True)

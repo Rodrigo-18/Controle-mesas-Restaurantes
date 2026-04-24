@@ -9,14 +9,18 @@ body {
     font-family: 'Segoe UI', Arial;
     background: #0f172a;
     color: #e2e8f0;
-    padding: 20px;
     margin: 0;
 }
 
-h1 {
+/* HEADER */
+.header {
+    background: #020617;
+    padding: 15px;
     text-align: center;
-    margin-bottom: 20px;
+    font-size: 22px;
+    font-weight: bold;
     color: #38bdf8;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
 }
 
 /* FORM */
@@ -24,7 +28,7 @@ h1 {
     display: flex;
     gap: 10px;
     justify-content: center;
-    margin-bottom: 30px;
+    padding: 20px;
     flex-wrap: wrap;
 }
 
@@ -46,45 +50,54 @@ button {
 
 /* BOTÃO ADD */
 .add {
-    background: #22c55e;
+    background: linear-gradient(135deg, #22c55e, #16a34a);
     color: white;
 }
 
 /* GRID */
 .container {
+    padding: 20px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
 }
 
-/* CARD MESA */
+/* CARD */
 .mesa {
     background: #1e293b;
     border-radius: 15px;
-    padding: 15px;
+    padding: 20px;
     text-align: center;
-    transition: 0.3s;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    transition: 0.25s;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
 }
 
-/* HOVER */
+/* HOVER SUAVE */
 .mesa:hover {
-    transform: scale(1.05);
+    transform: translateY(-5px);
 }
 
-/* MESA OCUPADA */
+/* STATUS */
 .ocupada {
-    border: 2px solid #22c55e;
+    border-left: 5px solid #22c55e;
 }
 
-/* MESA VAZIA */
 .vazia {
-    opacity: 0.6;
+    border-left: 5px solid #64748b;
+    opacity: 0.7;
+}
+
+.status {
+    margin-top: 10px;
+    font-size: 13px;
 }
 
 /* BOTÕES */
 .btn {
-    margin-top: 10px;
+    margin-top: 15px;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
 }
 
 .ver {
@@ -97,16 +110,21 @@ button {
     color: white;
 }
 
-.status {
-    margin-top: 8px;
-    font-size: 12px;
+/* RESPONSIVO */
+@media(max-width: 600px){
+    .form {
+        flex-direction: column;
+        align-items: center;
+    }
 }
 </style>
 
 </head>
 <body>
 
-<h1>🍽️ Controle de Mesas</h1>
+<div class="header">
+    🍽️ Controle de Mesas
+</div>
 
 <!-- FORM -->
 <form class="form" method="POST" action="/add">
@@ -131,14 +149,14 @@ button {
         <h3>Mesa {{mesa}}</h3>
 
         {% if itens|length > 0 %}
-            <div class="status">🟢 Ocupada ({{itens|length}} itens)</div>
+            <div class="status">🟢 Ocupada • {{itens|length}} itens</div>
 
             <div class="btn">
                 <a href="/mesa/{{mesa}}">
-                    <button class="ver">Ver Conta</button>
+                    <button class="ver">Abrir</button>
                 </a>
 
-                <a href="/limpar/{{mesa}}">
+                <a href="/limpar/{{mesa}}" onclick="return confirm('Limpar mesa?')">
                     <button class="limpar">Limpar</button>
                 </a>
             </div>
